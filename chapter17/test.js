@@ -78,5 +78,32 @@ console.log(matches); //(8) ["a", "link", "a", "a", "a", "a", "Script", "script
 //17.7 HTML 찾기
 const html1 = '<br>[!CDATA[[<br>]]]]';
 const matches1 = html1.match(/<br>/gi);
-console.log(matches1); //(2) ["<br>", "<br>"] 
+console.log(matches1); //(2) ["<br>", "<br>"]
 //정규식은 HTML처럼 매우 복잡한 것을 검색하기에는 알맞지 않음
+
+//17.8 문자셋
+//문자셋은 글자 하나를 다른 것으로 대체(alternation)하는 방법을 간단하게 줄인 것
+
+const beer99 =
+  '99 bottles of beer on the wall' +
+  'take 1 down and pass it round --' +
+  '98 bottles of beer on the wall.';
+
+const matches2 = beer99.match(/0|1|2|3|4|5|6|7|8|9/g);
+console.log(matches2); //(5) ["9", "9", "1", "9", "8"]
+
+const m1 = beer99.match(/[0123456789]/g);
+console.log(m1); //(5) ["9", "9", "1", "9", "8"]
+const m2 = beer99.match(/[0-9]/g);
+console.log(m2); //(5) ["9", "9", "1", "9", "8"]
+
+//공백 빼고 전부 찾는 정규식
+const match = beer99.match(/[\-0-9a-z.]/gi);
+console.log(match); //(74) ["9", "9", "b", "o", "t", "t", "l", "e", "s", "o", "f", "b", "e", "e", "r", "o", "n", "t", "h", "e", "w", "a", "l", "l", "t", "a", "k", "e", "1", "d", "o", "w", "n", "a", "n", "d", "p", "a", "s", "s", "i", "t", "r", "o", "u", "n", "d", "-", "-", "9", "8", "b", "o", "t", "t", "l", "e", "s", "o", "f", "b", "e", "e", "r", "o", "n", "t", "h", "e", "w", "a", "l", "l", "."]
+//순서는 중요하지 않음 /[.a-z0-9\-]/도 똑같은 값
+//하이픈을 이스케이프 하지않으면 범위를 표시하는 메타문자로 간주하기 때문에 이스케이프 해야함
+
+//캐럿(^)
+const match1 = beer99.match(/[^\-0-9az.]/);
+console.log(match1); //[" ", index: 2, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
+//문자열에서 공백만 찾음
