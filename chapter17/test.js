@@ -107,3 +107,68 @@ console.log(match); //(74) ["9", "9", "b", "o", "t", "t", "l", "e", "s", "o", "
 const match1 = beer99.match(/[^\-0-9az.]/);
 console.log(match1); //[" ", index: 2, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
 //문자열에서 공백만 찾음
+
+//17.9 자주 쓰는 문자셋
+//매우 자주 쓰이는 일부 문자셋은 단축 표기가 따로 있음. 이들은 클래스라고 부르기도 함.
+
+//\d = [0-9]
+//\D = [^0-9]
+//\s = [ \t\v\n\r] : 텝, 스페이스, 세로 탭, 줄바꿈이 포함됨
+//\S = [^ \t\v\n\r]
+//\w  = [a-zA-Z_]: 하이픈과 미침표는 포함되지 않으므로 문자셋으로 도메인 이름이나 CSS 클래스 등을 찾을 수는 없음
+//\W = [^a-zA-Z_]
+
+//공백문자셋 \s : 위 단축 표기중 가장 널리 쓰이임
+
+const stuff = 'hight: 9\n' + 'medium: 5\n' + 'low: 2\n';
+const levels = stuff.match(/:\s*[0-9]/g);
+// * : 숫자는 상관없으며 없어도 된다
+console.log(levels); //(3) [": 9", ": 5", ": 2"]
+
+//전화번호를 데이터 베이스에 저장하기 전에 형식을 통일하는 편이 좋습니다. 사라들이 전화번호를 쓰는 형식은 전혀 통일되어 있지 않습니다. 하이픈을 쓰는 사람이 가장 많지만, 그 밖에도 마침표, 괄호 , 공백, 샵등 온갖기호를 사용합니다. 전화번호를 검색하거나 저장하는 목적이라면 10자리 숫자로 통일 되어 있는 편이 가장 좋을 겁니다. \D를 쓰면 아주 쉽습니다.
+
+const messyPhone = '(505) 555-1515';
+const neatPhone = messyPhone.replace(/\D/g, '');
+
+console.log(neatPhone); //5055551515
+
+//비슷한 예로, 필자는 required 필드(공백이 아닌 글자가 최소한 하나는 있어야 하는 필드)에 데이터가 있는지 검사할 때 종종 \S를 쓰곤 합니다.
+
+const field = '  something   ';
+const valid = /\S/.test(field);
+console.log(valid); //true
+
+//17.10 반복
+//반복(repetition) 메타 문자는 얼마나 많이 일치해야 하는 지  지정할 때 씁니다.
+// 앞에서 우리는 숫자 한 개를 찾는 예제를 봤었습니다. 그런데 숫자 여러 개를 찾아야 한다면 어떨까요? 이미 알고 있는 방법을 사용해서 다음과 같이 찾을 수 있습니다.
+
+const match2 = beer99.match(/[0-9][0-9][0-9]|[0-9][0-9]|[0-9]/);
+console.log(match2); //["99", index: 0, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
+//이번에도, 두자리 숫자가 숫자를 소비해서 세 자리 숫자를 찾지 못하는 일이 없도록 세자리 숫자를 먼저 썼습니다. 이 정규식은 한 자리, 두 자리, 세 자리 숫자에는 잘 작동하지만 네 자리 숫자가 필요하다면 정규식을 또 고쳐야 합니다. 다행이 더 낳은 방법이 있습니다.
+
+const match3 = beer99.match(/[0-9]+/);
+console.log(match3); //["99", index: 0, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
+//문자셋 다음의 +는 그 앞에 요소가 하나 이상 있어야 한다는 뜻입니다. 반복 메타 문자는 그 자체로는 아무 의미도 없습니다. 반복 메타 문자에는 다섯 가지 종류가 있습니다.
+
+//{n} : 정확히 n개 ex) /d{5}/는 새 우편번호처럼 정확히 다섯 자리 숫자에만 일치합니다.
+//{n,} : 최소한 n개 ex) /\d{5,}/는 다섯자리 이상의 숫자에만 일치합니다.
+//{n, m} : n개 이상, m개 이하 ex) /\d{2, 5}/는 2개, 3개, 4개, 5개에 일치합니다.
+//? : 0개 또는 1개, {0,1}와 동등합니다 ex) /[a-z]\d?/i는 글자가 있고 그 다음에 숫자가 없거나 한개 있는 경우에 일치합니다.
+//* : 숫자와 상관없으며 없어도 됩니다 (클레이니(Klene)스타, 클레이니 클로저라고 부르기도 합니다). ex) /[a-z]\d*/i는 글자가 있고 그 다음에 숫자가 없거나 있는 경우에 일치합니다.
+//+ : 하나 이상 ex) /[a-z]\d+/i는 글자가 있고 그 다음에 숫자가 한 개 이상 있는 경우에 일치합니다.
+
+//17.11 마침표와 이스케이프
+//정규식에서 마침표는 줄 바꿈 문자를 제외한 모든 문자에 일치하는 특수 문자 입니다.
+//이 메타 문자는 입력이 어떤 문자이든 상관하지 않고 소비하려 할 때 주로 사용합니다.
+//문자열에서 우편번호만 필요하고 다른 것은 아무것도 필요하지 않다고 칩시다.
+
+const input1 =
+  'Address: 333 Main St., Anywhere, NY, 55532. Phone: 555-555-2525.';
+const match4 = input1.match(/\d{5}.*/);
+console.log(match4); //"55532. Phone: 555-555-2525.", index: 37, input: "Address: 333 Main St., Anywhere, NY, 55532. Phone: 555-555-2525.", groups: undefined]
+
+//하지만 마침표 자체가 필요할 때도 있습니다. 예를 들어 도메인 이름이나 IP 주소에는 마침표가 들어갑니다. 그 밖에도 아스테리스크나 괄호처럼 정규식 메타 문자를 글자 그대로 찾아야 할 때가 있습니다. 정규식 특수 문자를 이스케이프해서 일반 문자로 사용하려면 그 앞에 역슬래시를 붙이면 됩니다.
+
+const equation = '(2 + 3.5) * 7';
+const match5 = equation.match(/\(\d \+ \d\.\d\) \* \d/);
+console.log(match5);
