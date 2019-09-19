@@ -172,3 +172,27 @@ console.log(match4); //"55532. Phone: 555-555-2525.", index: 37, input: "Address
 const equation = '(2 + 3.5) * 7';
 const match5 = equation.match(/\(\d \+ \d\.\d\) \* \d/);
 console.log(match5);
+
+//17.11.1 진정한 와일드카드
+//마침표가 줄바꿈을 제외한 모든 문자에 일치한다면, 줄바꿈 문자를 포함해서 모든 문자에 일치하는 것은 어떻게 써야 할까요? 생각보다 더 자주 필요한 작업입니다. 방법은 다양하지만, 가장 널리 쓰이는 것은 [\s\S]입니다. 이것은 공백인 모든 문자에 일치하는 동시에, 공백이 아닌 모든 문자에 일치합니다.
+
+//17.12 그룹
+//그룹은 괄호로 만든다. 캡쳐하지 않는 그룹은 (?[subexpression]) 형태이고, 여기서 [subexpression]이 일치시키려 하는 패턴이다.
+
+//도메인 이름 중 .com, .org. edu만 찾는 예제
+const text = 'Visit oreilly.com today!';
+const match6 = text.match(/[a-z]+(?:\.com|\.org|\.edu)/i);
+
+console.log(match6); //["oreilly.com", index: 6, input: "Visit oreilly.com today!", groups: undefined]
+
+//그룹에도 반복을 적용 할 수 있다. 일반적으로 반복은 반복 메타 문자의 바로 왼쪽에 있는 문자 하나에 적용되지만, 그룹을 사용하면 그룹 전체에 반복을 적용한다.
+
+//http://, https://, //(프로토콜 독립적 URL)로 시작하는 URL을 찾는 예제
+//그룹과 함께 0 또는 1개에 일치하는 메타문자 ?를 사용
+const html2 =
+  '<link rel="stylesheet" href="http://insecure.com/stuff.css">\n' +
+  '<link rel="stylesheet" href="https://secure.com/securesstuff.css">\n' +
+  '<link rel="stylesheet" href="//anything.com/flexible.css">';
+
+const matches3 = html2.match(/(?:https?)?\/\/[a-z][a-z0-9-]+[a-z0-9]+/gi);
+console.log(matches3); //(3) ["//insecure", "//secure", "//anything"]
