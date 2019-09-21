@@ -196,3 +196,21 @@ const html2 =
 
 const matches3 = html2.match(/(?:https?)?\/\/[a-z][a-z0-9-]+[a-z0-9]+/gi);
 console.log(matches3); //(3) ["//insecure", "//secure", "//anything"]
+
+//17.13 소극적 일치, 적극적 일치
+//정규식은 기본적으로 적극적이다. 검색을 멈추기 전에 일치하는 것을 최대한 많이 찾으려고 한다는 뜻이다.
+
+//HTML 텍스트에서 <i> 태그를 <strong> 태그로 바꾸는 예제
+
+const input2 =
+  'Regex pro know the difference between\n' +
+  '<i>greedy</i> and <i>lazy</i> matching.';
+console.log(input2.replace(/<i>(.*)<\/i>/gi, '<strong>$1</strong>'));
+//Regex pro know the difference between <strong>greedy</i> and <i>lazy</strong> matching.
+//교체 문자열에 있는 $1는 .* 그룹에 일치하는 문자열로 바뀐다.
+
+//반복 메타문자 *를 소극적으로 바꾸는 방법 *뒤에 ?를 붙이면 소극적으로 검색한다.
+console.log(input2.replace(/<i>(.*?)<\/i>/gi, '<strong>$1</strong>'));
+// /Regex pro know the difference between <strong>greedy</strong> and <strong>lazy</strong> matching.
+
+//반복 메타문자 *, +, ?, {n}, {n,}, {n,m} 뒤에는 모두 물음표를 붙일 수 있지만 보통 *, + 외에는 물음표를 붙이지 않는다.
