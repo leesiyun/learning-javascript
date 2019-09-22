@@ -4,7 +4,7 @@
 //정규식을 쓰지 않고 검색하고 교체하는 방법
 //String.prototype
 
-const input = 'As I was going to Saint Ives';
+let input = 'As I was going to Saint Ives';
 console.log(input.startsWith('As')); //true
 console.log(input.endsWith('Ives')); //true
 console.log(input.startsWith('going', 9)); //true --인덱스 9에서 시작
@@ -31,9 +31,10 @@ console.log(input.replace('going', 'walking')); //As I was walking to Saint Ives
 const re1 = /going/; //단어 'going'을 찾을 수 있는 정규식
 const re2 = new RegExp('going'); //생성자를 사용했지만 결과는 같음
 
-//17.3 정규식 검색
+/* 17.3 정규식 검색
 
-//세　글자 이상인 단어에 모두 일치하고, 대소문자는 가리지 않는 정규식
+세　글자 이상인 단어에 모두 일치하고, 대소문자는 가리지 않는 정규식
+*/
 const re = /\w{3,}/gi;
 
 //문자열(input)의 메서드를 사용할 때
@@ -54,11 +55,13 @@ console.log(input.search(/\w{3,}/gi)); //5
 console.log(/\w{3,}/gi.test(input)); //true
 console.log(/\w{3,}/gi.exec(input)); //["was", index: 5, input: "As I was going to Saint Ives", groups: undefined]
 
-//가장 많은 정보를 제공하는 것은 RegExp.prototype.exec 메서드지만, 현실적으로는 가장 적게 쓰임
-//String.prototype.match와 RegExp.prototype.test 자주 쓰이는 메서드
+/*가장 많은 정보를 제공하는 것은 RegExp.prototype.exec 메서드지만, 현실적으로는 가장 적게 쓰인다.
+String.prototype.match와 RegExp.prototype.test 자주 쓰이는 메서드
 
-//17.4 정규식을 사용한 문자열 교체
-//String.prototype.replace 메서드에도 정규식을 쓸수 있음
+
+17.4 정규식을 사용한 문자열 교체
+String.prototype.replace 메서드에도 정규식을 쓸 수 있다.
+*/
 console.log(input.replace(/\w{4,}/gi, '****')); //As I was **** to **** ****
 
 //17.5 입력소비
@@ -66,19 +69,19 @@ console.log(input.replace(/\w{4,}/gi, '****')); //As I was **** to **** ****
 //17.6 대체
 //HTML 페이지를 문자열에 담았다고 가정할 때 이 문자열에서 외부 자원을 가리키는 태그 <a>,<area>,<link>,<script>,<source>,<meta>를 모두 찾고 싶은 경우, 이 문자열에는 태그의 대소문자가 통일 되지 않아 <Area>,<Link>같은 태그도 있음
 //정규식에서는 대체(alternation)을 통해 이런 문제를 해결
-const html =
+let html =
   'HTML with <a href="/one">one link</a>, and some JavaScript.' +
   '<script src="stuff.js">';
-const matches = html.match(/area|a|link|script|source/gi); //첫 시도
+let matches = html.match(/area|a|link|script|source/gi); //첫 시도
 console.log(matches); //(8) ["a", "link", "a", "a", "a", "a", "Script", "script"]
 //파이프(|) : 대체를 뜻하는 메타 문자, ig는 대소문자를 가리지 않고(i), 전체를(g) 검색이라는 뜻
 //g 플래그가 없으면 일치하는 것 중 첫 번째만 반환함
 //area, a 처럼 겹치는 것이 있을 경우 더 큰 것을 먼저 써야함 17.5 입력소비 참고
 
 //17.7 HTML 찾기
-const html1 = '<br>[!CDATA[[<br>]]]]';
-const matches1 = html1.match(/<br>/gi);
-console.log(matches1); //(2) ["<br>", "<br>"]
+html = '<br>[!CDATA[[<br>]]]]';
+matches = html.match(/<br>/gi);
+console.log(matches); //(2) ["<br>", "<br>"]
 //정규식은 HTML처럼 매우 복잡한 것을 검색하기에는 알맞지 않음
 
 //17.8 문자셋
@@ -89,8 +92,8 @@ const beer99 =
   'take 1 down and pass it round --' +
   '98 bottles of beer on the wall.';
 
-const matches2 = beer99.match(/0|1|2|3|4|5|6|7|8|9/g);
-console.log(matches2); //(5) ["9", "9", "1", "9", "8"]
+matches = beer99.match(/0|1|2|3|4|5|6|7|8|9/g);
+console.log(matches); //(5) ["9", "9", "1", "9", "8"]
 
 const m1 = beer99.match(/[0123456789]/g);
 console.log(m1); //(5) ["9", "9", "1", "9", "8"]
@@ -98,14 +101,14 @@ const m2 = beer99.match(/[0-9]/g);
 console.log(m2); //(5) ["9", "9", "1", "9", "8"]
 
 //공백 빼고 전부 찾는 정규식
-const match = beer99.match(/[\-0-9a-z.]/gi);
+let match = beer99.match(/[\-0-9a-z.]/gi);
 console.log(match); //(74) ["9", "9", "b", "o", "t", "t", "l", "e", "s", "o", "f", "b", "e", "e", "r", "o", "n", "t", "h", "e", "w", "a", "l", "l", "t", "a", "k", "e", "1", "d", "o", "w", "n", "a", "n", "d", "p", "a", "s", "s", "i", "t", "r", "o", "u", "n", "d", "-", "-", "9", "8", "b", "o", "t", "t", "l", "e", "s", "o", "f", "b", "e", "e", "r", "o", "n", "t", "h", "e", "w", "a", "l", "l", "."]
 //순서는 중요하지 않음 /[.a-z0-9\-]/도 똑같은 값
 //하이픈을 이스케이프 하지않으면 범위를 표시하는 메타문자로 간주하기 때문에 이스케이프 해야함
 
 //캐럿(^)
-const match1 = beer99.match(/[^\-0-9az.]/);
-console.log(match1); //[" ", index: 2, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
+match = beer99.match(/[^\-0-9az.]/);
+console.log(match); //[" ", index: 2, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
 //문자열에서 공백만 찾음
 
 //17.9 자주 쓰는 문자셋
@@ -142,12 +145,12 @@ console.log(valid); //true
 //반복(repetition) 메타 문자는 얼마나 많이 일치해야 하는 지  지정할 때 씁니다.
 // 앞에서 우리는 숫자 한 개를 찾는 예제를 봤었습니다. 그런데 숫자 여러 개를 찾아야 한다면 어떨까요? 이미 알고 있는 방법을 사용해서 다음과 같이 찾을 수 있습니다.
 
-const match2 = beer99.match(/[0-9][0-9][0-9]|[0-9][0-9]|[0-9]/);
-console.log(match2); //["99", index: 0, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
+match = beer99.match(/[0-9][0-9][0-9]|[0-9][0-9]|[0-9]/);
+console.log(match); //["99", index: 0, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
 //이번에도, 두자리 숫자가 숫자를 소비해서 세 자리 숫자를 찾지 못하는 일이 없도록 세자리 숫자를 먼저 썼습니다. 이 정규식은 한 자리, 두 자리, 세 자리 숫자에는 잘 작동하지만 네 자리 숫자가 필요하다면 정규식을 또 고쳐야 합니다. 다행이 더 낳은 방법이 있습니다.
 
-const match3 = beer99.match(/[0-9]+/);
-console.log(match3); //["99", index: 0, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
+match = beer99.match(/[0-9]+/);
+console.log(match); //["99", index: 0, input: "99 bottles of beer on the walltake 1 down and pass it round --98 bottles of beer on the wall.", groups: undefined]
 //문자셋 다음의 +는 그 앞에 요소가 하나 이상 있어야 한다는 뜻입니다. 반복 메타 문자는 그 자체로는 아무 의미도 없습니다. 반복 메타 문자에는 다섯 가지 종류가 있습니다.
 
 //{n} : 정확히 n개 ex) /d{5}/는 새 우편번호처럼 정확히 다섯 자리 숫자에만 일치합니다.
@@ -162,16 +165,15 @@ console.log(match3); //["99", index: 0, input: "99 bottles of beer on the wallta
 //이 메타 문자는 입력이 어떤 문자이든 상관하지 않고 소비하려 할 때 주로 사용합니다.
 //문자열에서 우편번호만 필요하고 다른 것은 아무것도 필요하지 않다고 칩시다.
 
-const input1 =
-  'Address: 333 Main St., Anywhere, NY, 55532. Phone: 555-555-2525.';
-const match4 = input1.match(/\d{5}.*/);
-console.log(match4); //"55532. Phone: 555-555-2525.", index: 37, input: "Address: 333 Main St., Anywhere, NY, 55532. Phone: 555-555-2525.", groups: undefined]
+input = 'Address: 333 Main St., Anywhere, NY, 55532. Phone: 555-555-2525.';
+match = input.match(/\d{5}.*/);
+console.log(match); //"55532. Phone: 555-555-2525.", index: 37, input: "Address: 333 Main St., Anywhere, NY, 55532. Phone: 555-555-2525.", groups: undefined]
 
 //하지만 마침표 자체가 필요할 때도 있습니다. 예를 들어 도메인 이름이나 IP 주소에는 마침표가 들어갑니다. 그 밖에도 아스테리스크나 괄호처럼 정규식 메타 문자를 글자 그대로 찾아야 할 때가 있습니다. 정규식 특수 문자를 이스케이프해서 일반 문자로 사용하려면 그 앞에 역슬래시를 붙이면 됩니다.
 
 const equation = '(2 + 3.5) * 7';
-const match5 = equation.match(/\(\d \+ \d\.\d\) \* \d/);
-console.log(match5);
+match = equation.match(/\(\d \+ \d\.\d\) \* \d/);
+console.log(match);
 
 //17.11.1 진정한 와일드카드
 //마침표가 줄바꿈을 제외한 모든 문자에 일치한다면, 줄바꿈 문자를 포함해서 모든 문자에 일치하는 것은 어떻게 써야 할까요? 생각보다 더 자주 필요한 작업입니다. 방법은 다양하지만, 가장 널리 쓰이는 것은 [\s\S]입니다. 이것은 공백인 모든 문자에 일치하는 동시에, 공백이 아닌 모든 문자에 일치합니다.
@@ -181,36 +183,83 @@ console.log(match5);
 
 //도메인 이름 중 .com, .org. edu만 찾는 예제
 const text = 'Visit oreilly.com today!';
-const match6 = text.match(/[a-z]+(?:\.com|\.org|\.edu)/i);
+match = text.match(/[a-z]+(?:\.com|\.org|\.edu)/i);
 
-console.log(match6); //["oreilly.com", index: 6, input: "Visit oreilly.com today!", groups: undefined]
+console.log(match); //["oreilly.com", index: 6, input: "Visit oreilly.com today!", groups: undefined]
 
 //그룹에도 반복을 적용 할 수 있다. 일반적으로 반복은 반복 메타 문자의 바로 왼쪽에 있는 문자 하나에 적용되지만, 그룹을 사용하면 그룹 전체에 반복을 적용한다.
 
 //http://, https://, //(프로토콜 독립적 URL)로 시작하는 URL을 찾는 예제
 //그룹과 함께 0 또는 1개에 일치하는 메타문자 ?를 사용
-const html2 =
+html =
   '<link rel="stylesheet" href="http://insecure.com/stuff.css">\n' +
   '<link rel="stylesheet" href="https://secure.com/securesstuff.css">\n' +
   '<link rel="stylesheet" href="//anything.com/flexible.css">';
 
-const matches3 = html2.match(/(?:https?)?\/\/[a-z][a-z0-9-]+[a-z0-9]+/gi);
-console.log(matches3); //(3) ["//insecure", "//secure", "//anything"]
+matches = html.match(/(?:https?)?\/\/[a-z][a-z0-9-]+[a-z0-9]+/gi);
+console.log(matches); //(3) ["//insecure", "//secure", "//anything"]
 
-//17.13 소극적 일치, 적극적 일치
-//정규식은 기본적으로 적극적이다. 검색을 멈추기 전에 일치하는 것을 최대한 많이 찾으려고 한다는 뜻이다.
+/*
+17.13 소극적 일치, 적극적 일치
+정규식은 기본적으로 적극적이다. 
+검색을 멈추기 전에 일치하는 것을 최대한 많이 찾으려고 한다는 뜻이다.
 
-//HTML 텍스트에서 <i> 태그를 <strong> 태그로 바꾸는 예제
+HTML 텍스트에서 <i> 태그를 <strong> 태그로 바꾸는 예제
+*/
 
-const input2 =
+input =
   'Regex pro know the difference between\n' +
   '<i>greedy</i> and <i>lazy</i> matching.';
-console.log(input2.replace(/<i>(.*)<\/i>/gi, '<strong>$1</strong>'));
+console.log(input.replace(/<i>(.*)<\/i>/gi, '<strong>$1</strong>'));
 //Regex pro know the difference between <strong>greedy</i> and <i>lazy</strong> matching.
 //교체 문자열에 있는 $1는 .* 그룹에 일치하는 문자열로 바뀐다.
 
 //반복 메타문자 *를 소극적으로 바꾸는 방법 *뒤에 ?를 붙이면 소극적으로 검색한다.
-console.log(input2.replace(/<i>(.*?)<\/i>/gi, '<strong>$1</strong>'));
-// /Regex pro know the difference between <strong>greedy</strong> and <strong>lazy</strong> matching.
+console.log(input.replace(/<i>(.*?)<\/i>/gi, '<strong>$1</strong>'));
+//Regex pro know the difference between <strong>greedy</strong> and <strong>lazy</strong> matching.
 
-//반복 메타문자 *, +, ?, {n}, {n,}, {n,m} 뒤에는 모두 물음표를 붙일 수 있지만 보통 *, + 외에는 물음표를 붙이지 않는다.
+/* 
+반복 메타문자 *, +, ?, {n}, {n,}, {n,m} 뒤에는 모두 물음표를 붙일 수 있지만 보통 *, + 외에는 물음표를 붙이지 않는다.
+
+
+17.14 역참조
+그룹을 사용하면 역참조(backreference)라는 테크닉도 쓸 수 있다.
+
+XYYX 형태의 밴드이름을 찾고 싶다고 한다면. PJJP, GOOG, ANNA 등이 해당된다. 
+역참조를 이런 경우에 유용하게 쓸 수 있다.
+서브그룹을 포함해, 정규식의 각 그룹은 숫자를 할당 받는다.
+숫자는 맨 왼쪽이 1번에서 시작해 오른쪽으로 갈 수록 1씩 늘어난다. 역슬래시 뒤에 숫자를 써서 이 그룹을 참조 할 수 있다.
+즉 \1은 맨 처음 일치한 그룹이다.
+*/
+
+const promo = 'Opening for XAAX is the dynamic GOOG! At the box office now!';
+const bands = promo.match(/([A-Z])([A-Z])\2\1/g);
+console.log(bands); //(2) ["XAAX", "GOOG"]
+
+/*
+이 정규식을 왼쪽에서 오른쪽으로 읽으면 그룹이 두 개 있고 그 다음에 \2\1이 있다.
+첫 번째 그룹이 X에 일치하고 두 번째 그룹이 A에 일치한다면 \2는 A이고 \1은 X이다.
+
+특이한 퍼즐을 풀 때를 제외하면, 보통 실무에서 역참조를 사용하는 것은 따옴표의 짝을 맞출 때 뿐이다.
+
+HTML에서는 태그의 속성 값에 큰 따옴표나 작은 따옴표를 써야한다. 역참조를 이용하면 쉽게 찾을 수 있다.
+
+
+작은 따옴표와 큰따옴표를 모두 썻으므로 백틱으로 문자열 경계를 나타냈다
+ */
+
+html = `<img alt = 'A "simple" example.'>` + `<img alt = "Don't abuse it!">`;
+matches = html.match(/<img alt = (['"]).*?/g);
+console.log(matches); //(2) ["<img alt = '", "<img alt = ""]
+
+/*
+이 예제는 좀 지나치게 단순화 한 것으로 다른 속성이 alt 속성보다 앞에 있거나, alt 앞에 공백이 두개 이상이라면 이 정규식으로는 아무 것도 찾지 못한다.
+
+밴드 이름 예제와 마찬가지로, 첫 번째 그룹은 따옴표 뒤에 0개 이상의 문자를 찾는다.(물음표를 썼으므로 소극적으로 일치해, 두 번째<img>까지 진행하는 일은 없다.)
+그 다음에 있는 \1는 앞에서 찾은 따옴표의 짝이다.
+
+* 다음의 물음표를 지우고 적극적으로 일치하게 만들 경우
+*/
+
+matches = html.match(/<img alt = (['"]).*/g);
+console.log(matches); //["<img alt = 'A "simple" example.'><img alt = "Don't abuse it!">"]
