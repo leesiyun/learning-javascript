@@ -263,3 +263,46 @@ console.log(matches); //(2) ["<img alt = '", "<img alt = ""]
 
 matches = html.match(/<img alt = (['"]).*/g);
 console.log(matches); //["<img alt = 'A "simple" example.'><img alt = "Don't abuse it!">"]
+
+/*
+17.15 그룹 교체
+
+
+그룹을 사용하면 문자열 교체도 더 다양한 방법으로 할 수 있다.
+
+
+HTML <a>태그에서 href가 아닌 속성을 전부 제거한다고 가정하는 경우
+*/
+
+html = '<a class="nope" href="/yep">Yep</a>';
+html = html.replace(/<a .*?(href=".*?").*?>/, '<a $1>');
+console.log(html); //<a href="/yep">Yep</a>
+
+/*
+역참조와 마찬가지로 모든 그룹은 1로 시작하는 숫자를 할당 받는다.
+정규식에서 첫 번째 그룹은 \1이고, 교체할 문자열에서는 $1이 첫 번째 그룹에 해당한다.
+이번에도 소극적 일치를 써서 다른 <a> 태그까지 검색이 확장되는 일을 막았다.
+이 정규식은 href 속성의 값에 큰 따옴표가 아닌 작은 따옴표를 쓴 문자열에서는 아무것도 찾지 못한다.
+
+
+class 속성과 href 속성을 남기고 나머지는 모두 없애는 경우
+*/
+
+html = '<a class="yep" href="/yep" id="nope">Yep</a>';
+html = html.replace(/<a .*?(class=".*?").*?(href=".*?").*?>/, '<a $2 $1>');
+console.log(html); //<a href="/yep" class="yep">Yep</a>
+
+/*
+class와 href의 순서를 바꾸므로 결과 문자열에서는 href가 앞에 온다.
+이 정규식은 class 뒤에 href가 있어야만 동작하고, 앞에서와 마찬가지로 속성 값에 작은 따옴표를 쓰면 동작하지 않는다. 
+
+
+$1, $2 등 숫자로 참조하는 것 외에도 일치하는 것 앞에 있는 전부를 참조하는 $`, 일치하는 것 자체인 $&, 일치하는 것 뒤에 있는 전부를 참조하는 $'도 있다.
+달러 기호 자체가 필요할 때는 $$를 쓴다.
+ */
+
+input = 'One two three';
+console.log(input.replace(/two/, '($`)')); //One (One ) three
+console.log(input.replace(/two/, '($&)')); //One (two) three
+console.log(input.replace(/two/, "($')")); //One ( three) three
+console.log(input.replace(/two/, '($$)')); //One ($) three
