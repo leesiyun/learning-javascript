@@ -308,3 +308,39 @@ console.log(input.replace(/two/, "($')")); //One ( three) three
 console.log(input.replace(/two/, '($$)')); //One ($) three
 
 
+/*
+17.16 함수를 이용한 교체
+함수를 이용하면 어주 복잡한 정규식을 좀 더 단순한 정규식으로 분할 할 수 있다.
+
+<a> 태그를 정확한 규격에 맞도록 바꾸는 프로그램
+*/
+
+html = `<a class="foo" href="/foo" id="foo">Foo</a>\n` +
+`<A href='/bar' Class="bar">Bar</a>\n` +
+`<a href="/baz">Baz</a>\n` +
+`<a onclick="javascript:alert('qux!')" href="/qux"Qux></a>`;
+
+/*
+<a> 태그를 인식하는 정규식, 그리고 <a>태그의 속성 중에서 필요한 것만 남기는 정규식
+*/
+
+const sanitizeATag = (aTag) => {
+  //태그에서 원하는 부분을 뽑아낸다.
+  const parts = aTag.match(/<a\s+(.*?)>(.*?)<\/a>/i);
+  //parts[1]은 여는 <a> 태그에 들어있는 속성이다.
+  //parts[2]는 <a>와 </a>사이에 있는 텍스트이다.
+  const attributes = parts[1]
+  //속성을 분해한다.
+  .split(/\s+/);
+  return '<a' + attributes
+    //class, id, href 속성만 필요함
+    .filter(attr => /^(?:class|id|href)[\s=]/i.test(attr))
+    //스페이스 한 칸으로 구분해서 합친다.
+    .join(' ')
+    //여는 <a> 태그를 완성한다.
+    + '>'
+    //텍스트를 추가
+    + parts[2]
+    //마지막으로 태그를 닫는다.
+    +'</a>';
+};
