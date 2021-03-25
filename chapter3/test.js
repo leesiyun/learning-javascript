@@ -1,23 +1,39 @@
-/* CHAPTER3 리터럴과 변수, 상수, 데이터 타입 */
-/* 3.1 변수와 상수 */
-//섭씨온도
-let currentTempC = 22;
+/*
+ CHAPTER3 리터럴과 변수, 상수, 데이터 타입 
+ 
+ 데이터 타입(Data Type): 숫자, 텍스트, 날짜 등
+ 변수, 상수, 리터럴 : 자바스크립트가 데이터를 보관하는 메커니즘
+ * 메커니즘 : 어떤 사물이 어떻게 작동하는 원리
 
-currentTempC = 22.5;
+리터럴과 값(Value)의 차이
+표현식(expression)과 문(Statement)의 차이
 
-// let targetTempC = undefined;와 같습니다.
-let targetTempC;
+컴퓨터 과학
+
+3.1 변수와 상수 
+변수(Variable) : 이름이 붙은 값, 값은 언제든 바뀔 수 있다
+
+
+섭씨온도 currentTempC
+
+let문 하나에서 변수 여러개를 선언 할 수 있다.
+*/
 
 let targetTempC,
-  room1 = "conference_room_a",
-  room2 = "lobby";
+  room1 = 'conference_room_a',
+  room2 = 'lobby';
 
 const ROOM_TEMP_C = 21.5,
   MAX_TEMP_C = 30;
 
+/*
+상수(Constant)는 ES6에서 새로 생겼습니다.
+상수 이름에는 보통 대문자와 밑줄만 사용합니다.
+  */
+
 /* 3.4 리터럴 */
 // "conference_room_a"(따옴표 안)은 리터럴 입니다.
-let room1 = "conference_room_a";
+let room1 = 'conference_room_a';
 
 // 이제 currentRoom의 값은
 //room1의 값 (" conference_room_a")과 같습니다.
@@ -28,8 +44,8 @@ let currentRoom = room1;
 currentRoom = conference_room_a;
 
 /* 3.5 원시 타입과 객체 */
-let str = "hello";
-str = "world";
+let str = 'hello';
+str = 'world';
 
 /* 3.6 숫자 */
 // 숫자 리터럴. count는 더블입니다.
@@ -90,10 +106,10 @@ const imperative = "Don't do that!";
 //에러가 일어납니다.
 //const dialog = "Sam looked up and said "don't do that!" to Max.";
 
-const dialog1 = "He looked up and said \"don't do that!\" to Max.";
+const dialog1 = 'He looked up and said "don\'t do that!" to Max.';
 const dialog2 = 'He looked up and said "don\'t do that!" to Max.';
 
-const s = "In JavaScript, use \\ as an escape character in strings.";
+const s = 'In JavaScript, use \\ as an escape character in strings.';
 
 /* 3.8.1 템플릿 문자열 */
 let currentTemp = 19.6;
@@ -103,11 +119,11 @@ let currentTemp = 19.6;
 const message = `The current Temperature is ${currentTemp}\u00b0C`;
 
 /* 3.8.2 여러 줄 문자열 */
-const multiline = "line1\
-line2";
+const multiline = 'line1\
+line2';
 
-const multiline = "line1\n\
-line2";
+const multiline = 'line1\n\
+line2';
 
 const multiline = `line1
 line2`;
@@ -116,13 +132,12 @@ const multiline = `line1
 line2
 line3`;
 
-const multiline = "line1\n" +
-"line2\n" +
-"line3";
+const multiline = 'line1\n' + 'line2\n' + 'line3';
 
-const multiline = 'Current temperature:\n' +
-`\t${currentTemp}\u00b0C\n` +
-"Don't worry...the heat is on!"; 
+const multiline =
+  'Current temperature:\n' +
+  `\t${currentTemp}\u00b0C\n` +
+  "Don't worry...the heat is on!";
 
 /* 3.8.3 숫자와 문자열 */
 //3이 문자열로 바뀝니다. 결과는 문자열 '330'입니다.
@@ -135,6 +150,6 @@ let heating = true;
 let cooling = false;
 
 /* 3.10 심볼 */
-const RED = Symbol("The color of a sunset!");
-const ORANGE = Symbol("The color of a sunset!");
-RED === ORANGE //false: 심볼은 모두 서로 다릅니다.
+const RED = Symbol('The color of a sunset!');
+const ORANGE = Symbol('The color of a sunset!');
+RED === ORANGE; //false: 심볼은 모두 서로 다릅니다.
